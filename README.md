@@ -1,7 +1,7 @@
 # SimpleRefresher
 Experimental
 
-
+![refresher.gif](refresher.gif)
 
 ```Swift
 let refresher = SimpleRefresher { [weak self] (event) -> Void in

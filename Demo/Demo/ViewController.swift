@@ -19,9 +19,7 @@ final class ViewController: UIViewController, UITableViewDataSource {
         
         tableView.dataSource = self
         
-        let refresher = SimpleRefresher()
-
-        refresher.addEventHandler { [weak self] (event) -> Void in
+        let refresher = SimpleRefresher { [weak self] (event) -> Void in
             switch event {
             case .StartRefreshing:
                 print("REFRESH: START")

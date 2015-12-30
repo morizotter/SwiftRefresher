@@ -75,6 +75,11 @@ public class SimpleRefresher: UIView {
         }
     }
     
+    convenience public init(eventHandler: SimpleRefresherEventHandler) {
+        self.init()
+        self.eventHandler = eventHandler
+    }
+    
     public func setup(scrollView: UIScrollView?) {
         let origin = CGPoint(x: 0.0, y: -height)
         let size = CGSize(width: UIScreen.mainScreen().bounds.width, height: height)
