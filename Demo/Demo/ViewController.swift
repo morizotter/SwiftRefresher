@@ -20,6 +20,7 @@ final class ViewController: UIViewController, UITableViewDataSource {
         tableView.dataSource = self
         
         let refresher = SmartRefresher()
+        refresher.pullingImageView.image = UIImage(named: "pulling")
         refresher.addEventHandler { [weak self] (event) -> Void in
             switch event {
             case .StartRefreshing:

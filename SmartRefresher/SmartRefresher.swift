@@ -44,6 +44,7 @@ public enum SmartRefresherEvent {
 }
 
 public typealias SmartRefresherEventHandler = ((event: SmartRefresherEvent) -> Void)
+public typealias SmartRefresherConfigureHandler = ((refresher: SmartRefresher) -> Void)
 
 private let DEFAULT_HEIGHT: CGFloat = 44.0
 
@@ -52,10 +53,12 @@ public class SmartRefresher: UIView {
     public var state: SmartRefresherState { return stateInternal }
     public var useActivityIndicatorView: Bool = true
     public var activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+    public var pullingImageView = UIImageView(frame: CGRect.zero)
     
     private weak var scrollView: UIScrollView?
     private var stateInternal = SmartRefresherState.None
     private var eventHandler: SmartRefresherEventHandler?
+    private var configureHandler: SmartRefresherConfigureHandler?
     private var contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     private var contentOffset = CGPoint.zero
     private var distanceOffset: CGPoint {
@@ -89,6 +92,16 @@ public class SmartRefresher: UIView {
         activityIndicatorView.hidesWhenStopped = true
         addSubview(activityIndicatorView)
         self.activityIndicatorView = activityIndicatorView
+        
+        let imageSize = CGSize(width: height / 2.0, height: height / 2.0)
+        pullingImageView.frame = CGRect(origin: CGPoint.zero, size: imageSize)
+        pullingImageView.center = CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0)
+        pullingImageView.contentMode = .ScaleAspectFit
+        addSubview(pullingImageView)
+        
+//        pullingImageView.backgroundColor = .redColor()
+//        backgroundColor = .blueColor()
+        configureHandler?(refresher: self)
     }
     
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -112,15 +125,34 @@ public class SmartRefresher: UIView {
         
         switch state {
         case .Loading:
-            break
+            pullingImageView.hidden = true
         case .None:
-            if distanceOffset.y <= 0 {
-                eventHandler?(event: .Pulling(offset: distanceOffset, threshold: -height))
+            if distanceOffset.y >= 0 {
+                hidden = true
+            } else {
+                hidden = false
             }
+            
+            if recoveringInitialState {
+                pullingImageView.hidden = true
+            } else {
+                pullingImageView.hidden = false
+                
+                if distanceOffset.y <= 0 {
+                    eventHandler?(event: .Pulling(offset: distanceOffset, threshold: -height))
+                }
+            }
+            
             if scrollView.decelerating && distanceOffset.y < -height {
                 startRefresh()
             }
         }
+        
+//        print("keyPath: \(keyPath)")
+//        print("object: \(object)")
+//        print("change: \(change)")
+//        print("distanceOffset: \(distanceOffset)")
+//        print("y: \(frame.origin.y)")
     }
     
     private func startRefresh() {
@@ -134,6 +166,7 @@ public class SmartRefresher: UIView {
         if useActivityIndicatorView {
             activityIndicatorView.startAnimating()
         }
+        pullingImageView.hidden = true
         eventHandler?(event: .StartRefreshing)
     }
     
@@ -159,5 +192,9 @@ public class SmartRefresher: UIView {
     
     public func addEventHandler(handler: SmartRefresherEventHandler) {
         eventHandler = handler
+    }
+    
+    public func configureRefresher(handler: SmartRefresherConfigureHandler) {
+        configureHandler = handler
     }
 }
