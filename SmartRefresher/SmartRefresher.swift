@@ -11,6 +11,7 @@ import UIKit
 public extension UIScrollView {
     public func smr_addSmartRefresher(refresher: SmartRefresher) {
         insertSubview(refresher, atIndex: 0)
+        clipsToBounds = false
         refresher.setup(self)
     }
     
@@ -50,6 +51,7 @@ public class SmartRefresher: UIView {
     private var distanceOffset: CGPoint {
         return CGPoint(x: contentInset.left + contentOffset.x, y: contentInset.top + contentOffset.y)
     }
+    private weak var activityIndicatorView: UIActivityIndicatorView!
     
     public var height: CGFloat = DEFAULT_HEIGHT
     
@@ -69,6 +71,17 @@ public class SmartRefresher: UIView {
         let origin = CGPoint.zero
         let size = CGSize(width: UIScreen.mainScreen().bounds.width, height: height)
         frame = CGRect(origin: origin, size: size)
+        
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+        activityIndicatorView.center = center
+        activityIndicatorView.hidesWhenStopped = true
+        addSubview(activityIndicatorView)
+        self.activityIndicatorView = activityIndicatorView
+        
+        backgroundColor = .redColor()
+        let v = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 100, height: 20))
+        v.text = "ue"
+        addSubview(v)
     }
     
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -100,23 +113,32 @@ public class SmartRefresher: UIView {
         if scrollView.dragging && distanceOffset.y < -height {
             startRefresh()
         }
+        
+        print("keyPath: \(keyPath)")
+        print("object: \(object)")
+        print("change: \(change)")
+        print("distanceOffset: \(distanceOffset)")
+        print("y: \(frame.origin.y)")
+        print("END-------")
     }
     
     private func startRefresh() {
+        guard let scrollView = scrollView else { return }
         if state == .Loading { return }
         state = .Loading
-        guard let scrollView = scrollView else { return }
         scrollView.contentInset.top = scrollView.contentInset.top + height
+        activityIndicatorView.startAnimating()
         refreshedHandler?(refresher: self)
     }
     
     private func endRefresh() {
+        guard let scrollView = scrollView else { return }
         if state == .None { return }
         state = .None
-        guard let scrollView = scrollView else { return }
         scrollView.contentInset.top = scrollView.contentInset.top - height
         scrollView.contentOffset.y = scrollView.contentOffset.y - height
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y + height), animated: true)
+        activityIndicatorView.stopAnimating()
         refreshedHandler?(refresher: self)
     }
     
