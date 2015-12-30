@@ -1,5 +1,5 @@
 //
-//  SmartRefresher.swift
+//  SimpleRefresher.swift
 //  Demo
 //
 //  Created by MORITANAOKI on 2015/12/30.
@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UIScrollView {
-    public func smr_addRefresher(refresher: SmartRefresher) {
+    public func smr_addRefresher(refresher: SimpleRefresher) {
         insertSubview(refresher, atIndex: 0)
         refresher.setup(self)
     }
@@ -27,37 +27,37 @@ public extension UIScrollView {
         }
     }
     
-    private func smr_findRefreshers() -> [SmartRefresher]? {
-        return subviews.filter { $0 is SmartRefresher }.flatMap { $0 as? SmartRefresher }
+    private func smr_findRefreshers() -> [SimpleRefresher]? {
+        return subviews.filter { $0 is SimpleRefresher }.flatMap { $0 as? SimpleRefresher }
     }
 }
 
-public enum SmartRefresherState {
+public enum SimpleRefresherState {
     case None
     case Loading
 }
 
-public enum SmartRefresherEvent {
+public enum SimpleRefresherEvent {
     case Pulling(offset: CGPoint, threshold: CGFloat)
     case StartRefreshing
     case EndRefreshing
 }
 
-public typealias SmartRefresherEventHandler = ((event: SmartRefresherEvent) -> Void)
-public typealias SmartRefresherConfigureHandler = ((refresher: SmartRefresher) -> Void)
+public typealias SimpleRefresherEventHandler = ((event: SimpleRefresherEvent) -> Void)
+public typealias SimpleRefresherConfigureHandler = ((refresher: SimpleRefresher) -> Void)
 
 private let DEFAULT_HEIGHT: CGFloat = 44.0
 
-public class SmartRefresher: UIView {
+public class SimpleRefresher: UIView {
     
-    public var state: SmartRefresherState { return stateInternal }
+    public var state: SimpleRefresherState { return stateInternal }
     public var useActivityIndicatorView: Bool = true
     public var activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
     public var pullingImageView = UIImageView(frame: CGRect.zero)
     
-    private var stateInternal = SmartRefresherState.None
-    private var eventHandler: SmartRefresherEventHandler?
-    private var configureHandler: SmartRefresherConfigureHandler?
+    private var stateInternal = SimpleRefresherState.None
+    private var eventHandler: SimpleRefresherEventHandler?
+    private var configureHandler: SimpleRefresherConfigureHandler?
     private var contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     private var contentOffset = CGPoint.zero
     private var distanceOffset: CGPoint {
@@ -91,7 +91,7 @@ public class SmartRefresher: UIView {
         pullingImageView.frame = CGRect(origin: CGPoint.zero, size: imageSize)
         pullingImageView.center = CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0)
         pullingImageView.contentMode = .ScaleAspectFit
-        if let imagePath = NSBundle(forClass: SmartRefresher.self).pathForResource("pull", ofType: "png") {
+        if let imagePath = NSBundle(forClass: SimpleRefresher.self).pathForResource("pull", ofType: "png") {
             pullingImageView.image = UIImage(contentsOfFile: imagePath)
         }
         addSubview(pullingImageView)
@@ -204,11 +204,11 @@ public class SmartRefresher: UIView {
         }
     }
     
-    public func addEventHandler(handler: SmartRefresherEventHandler) {
+    public func addEventHandler(handler: SimpleRefresherEventHandler) {
         eventHandler = handler
     }
     
-    public func configureRefresher(handler: SmartRefresherConfigureHandler) {
+    public func configureRefresher(handler: SimpleRefresherConfigureHandler) {
         configureHandler = handler
     }
 }

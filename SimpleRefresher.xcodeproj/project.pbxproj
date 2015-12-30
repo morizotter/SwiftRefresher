@@ -7,25 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		903E34041C33B1B900488D54 /* SmartRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 903E34031C33B1B900488D54 /* SmartRefresher.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		907DFF5A1C34759A00DB25EA /* pull.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF561C34759A00DB25EA /* pull.png */; };
-		907DFF5B1C34759A00DB25EA /* pull@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF571C34759A00DB25EA /* pull@2x.png */; };
-		907DFF5C1C34759A00DB25EA /* pull@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF581C34759A00DB25EA /* pull@3x.png */; };
-		907DFF5D1C34759A00DB25EA /* SmartRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907DFF591C34759A00DB25EA /* SmartRefresher.swift */; };
+		907DFF7E1C347A4E00DB25EA /* SimpleRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 907DFF7D1C347A4E00DB25EA /* SimpleRefresher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		907DFF891C347AF800DB25EA /* pull.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF851C347AF800DB25EA /* pull.png */; };
+		907DFF8A1C347AF800DB25EA /* pull@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF861C347AF800DB25EA /* pull@2x.png */; };
+		907DFF8B1C347AF800DB25EA /* pull@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF871C347AF800DB25EA /* pull@3x.png */; };
+		907DFF8C1C347AF800DB25EA /* SimpleRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907DFF881C347AF800DB25EA /* SimpleRefresher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		903E34001C33B1B900488D54 /* SmartRefresher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartRefresher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		903E34031C33B1B900488D54 /* SmartRefresher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartRefresher.h; sourceTree = "<group>"; };
-		903E34051C33B1B900488D54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		907DFF561C34759A00DB25EA /* pull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pull.png; sourceTree = "<group>"; };
-		907DFF571C34759A00DB25EA /* pull@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull@2x.png"; sourceTree = "<group>"; };
-		907DFF581C34759A00DB25EA /* pull@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull@3x.png"; sourceTree = "<group>"; };
-		907DFF591C34759A00DB25EA /* SmartRefresher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartRefresher.swift; sourceTree = "<group>"; };
+		907DFF7A1C347A4E00DB25EA /* SimpleRefresher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SimpleRefresher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		907DFF7D1C347A4E00DB25EA /* SimpleRefresher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleRefresher.h; sourceTree = "<group>"; };
+		907DFF7F1C347A4E00DB25EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		907DFF851C347AF800DB25EA /* pull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pull.png; sourceTree = "<group>"; };
+		907DFF861C347AF800DB25EA /* pull@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull@2x.png"; sourceTree = "<group>"; };
+		907DFF871C347AF800DB25EA /* pull@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull@3x.png"; sourceTree = "<group>"; };
+		907DFF881C347AF800DB25EA /* SimpleRefresher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleRefresher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		903E33FC1C33B1B900488D54 /* Frameworks */ = {
+		907DFF761C347A4E00DB25EA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -35,124 +35,124 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		903E33F61C33B1B900488D54 = {
+		907DFF701C347A4E00DB25EA = {
 			isa = PBXGroup;
 			children = (
-				903E34021C33B1B900488D54 /* SmartRefresher */,
-				903E34011C33B1B900488D54 /* Products */,
+				907DFF7C1C347A4E00DB25EA /* SimpleRefresher */,
+				907DFF7B1C347A4E00DB25EA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		903E34011C33B1B900488D54 /* Products */ = {
+		907DFF7B1C347A4E00DB25EA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				903E34001C33B1B900488D54 /* SmartRefresher.framework */,
+				907DFF7A1C347A4E00DB25EA /* SimpleRefresher.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		903E34021C33B1B900488D54 /* SmartRefresher */ = {
+		907DFF7C1C347A4E00DB25EA /* SimpleRefresher */ = {
 			isa = PBXGroup;
 			children = (
-				907DFF561C34759A00DB25EA /* pull.png */,
-				907DFF571C34759A00DB25EA /* pull@2x.png */,
-				907DFF581C34759A00DB25EA /* pull@3x.png */,
-				907DFF591C34759A00DB25EA /* SmartRefresher.swift */,
-				903E34031C33B1B900488D54 /* SmartRefresher.h */,
-				903E34051C33B1B900488D54 /* Info.plist */,
+				907DFF851C347AF800DB25EA /* pull.png */,
+				907DFF861C347AF800DB25EA /* pull@2x.png */,
+				907DFF871C347AF800DB25EA /* pull@3x.png */,
+				907DFF881C347AF800DB25EA /* SimpleRefresher.swift */,
+				907DFF7D1C347A4E00DB25EA /* SimpleRefresher.h */,
+				907DFF7F1C347A4E00DB25EA /* Info.plist */,
 			);
-			path = SmartRefresher;
+			path = SimpleRefresher;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		903E33FD1C33B1B900488D54 /* Headers */ = {
+		907DFF771C347A4E00DB25EA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				903E34041C33B1B900488D54 /* SmartRefresher.h in Headers */,
+				907DFF7E1C347A4E00DB25EA /* SimpleRefresher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		903E33FF1C33B1B900488D54 /* SmartRefresher */ = {
+		907DFF791C347A4E00DB25EA /* SimpleRefresher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 903E34081C33B1B900488D54 /* Build configuration list for PBXNativeTarget "SmartRefresher" */;
+			buildConfigurationList = 907DFF821C347A4E00DB25EA /* Build configuration list for PBXNativeTarget "SimpleRefresher" */;
 			buildPhases = (
-				903E33FB1C33B1B900488D54 /* Sources */,
-				903E33FC1C33B1B900488D54 /* Frameworks */,
-				903E33FD1C33B1B900488D54 /* Headers */,
-				903E33FE1C33B1B900488D54 /* Resources */,
+				907DFF751C347A4E00DB25EA /* Sources */,
+				907DFF761C347A4E00DB25EA /* Frameworks */,
+				907DFF771C347A4E00DB25EA /* Headers */,
+				907DFF781C347A4E00DB25EA /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = SmartRefresher;
-			productName = SmartRefresher;
-			productReference = 903E34001C33B1B900488D54 /* SmartRefresher.framework */;
+			name = SimpleRefresher;
+			productName = SimpleRefresher;
+			productReference = 907DFF7A1C347A4E00DB25EA /* SimpleRefresher.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		903E33F71C33B1B900488D54 /* Project object */ = {
+		907DFF711C347A4E00DB25EA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = molabo;
 				TargetAttributes = {
-					903E33FF1C33B1B900488D54 = {
+					907DFF791C347A4E00DB25EA = {
 						CreatedOnToolsVersion = 7.2;
 					};
 				};
 			};
-			buildConfigurationList = 903E33FA1C33B1B900488D54 /* Build configuration list for PBXProject "SmartRefresher" */;
+			buildConfigurationList = 907DFF741C347A4E00DB25EA /* Build configuration list for PBXProject "SimpleRefresher" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 903E33F61C33B1B900488D54;
-			productRefGroup = 903E34011C33B1B900488D54 /* Products */;
+			mainGroup = 907DFF701C347A4E00DB25EA;
+			productRefGroup = 907DFF7B1C347A4E00DB25EA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				903E33FF1C33B1B900488D54 /* SmartRefresher */,
+				907DFF791C347A4E00DB25EA /* SimpleRefresher */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		903E33FE1C33B1B900488D54 /* Resources */ = {
+		907DFF781C347A4E00DB25EA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				907DFF5C1C34759A00DB25EA /* pull@3x.png in Resources */,
-				907DFF5A1C34759A00DB25EA /* pull.png in Resources */,
-				907DFF5B1C34759A00DB25EA /* pull@2x.png in Resources */,
+				907DFF8B1C347AF800DB25EA /* pull@3x.png in Resources */,
+				907DFF891C347AF800DB25EA /* pull.png in Resources */,
+				907DFF8A1C347AF800DB25EA /* pull@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		903E33FB1C33B1B900488D54 /* Sources */ = {
+		907DFF751C347A4E00DB25EA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				907DFF5D1C34759A00DB25EA /* SmartRefresher.swift in Sources */,
+				907DFF8C1C347AF800DB25EA /* SimpleRefresher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		903E34061C33B1B900488D54 /* Debug */ = {
+		907DFF801C347A4E00DB25EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -200,7 +200,7 @@
 			};
 			name = Debug;
 		};
-		903E34071C33B1B900488D54 /* Release */ = {
+		907DFF811C347A4E00DB25EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -241,7 +241,7 @@
 			};
 			name = Release;
 		};
-		903E34091C33B1B900488D54 /* Debug */ = {
+		907DFF831C347A4E00DB25EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -249,18 +249,17 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SmartRefresher/Info.plist;
+				INFOPLIST_FILE = SimpleRefresher/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = molabo.SmartRefresher;
+				PRODUCT_BUNDLE_IDENTIFIER = molabo.SimpleRefresher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		903E340A1C33B1B900488D54 /* Release */ = {
+		907DFF841C347A4E00DB25EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -268,11 +267,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SmartRefresher/Info.plist;
+				INFOPLIST_FILE = SimpleRefresher/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = molabo.SmartRefresher;
+				PRODUCT_BUNDLE_IDENTIFIER = molabo.SimpleRefresher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -281,25 +279,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		903E33FA1C33B1B900488D54 /* Build configuration list for PBXProject "SmartRefresher" */ = {
+		907DFF741C347A4E00DB25EA /* Build configuration list for PBXProject "SimpleRefresher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				903E34061C33B1B900488D54 /* Debug */,
-				903E34071C33B1B900488D54 /* Release */,
+				907DFF801C347A4E00DB25EA /* Debug */,
+				907DFF811C347A4E00DB25EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		903E34081C33B1B900488D54 /* Build configuration list for PBXNativeTarget "SmartRefresher" */ = {
+		907DFF821C347A4E00DB25EA /* Build configuration list for PBXNativeTarget "SimpleRefresher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				903E34091C33B1B900488D54 /* Debug */,
-				903E340A1C33B1B900488D54 /* Release */,
+				907DFF831C347A4E00DB25EA /* Debug */,
+				907DFF841C347A4E00DB25EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 903E33F71C33B1B900488D54 /* Project object */;
+	rootObject = 907DFF711C347A4E00DB25EA /* Project object */;
 }
