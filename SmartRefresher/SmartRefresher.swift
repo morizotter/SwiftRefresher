@@ -38,9 +38,7 @@ public enum SmartRefresherState {
 }
 
 public enum SmartRefresherEvent {
-//    case StartPulling
-    case Pulling(offset: CGPoint)
-//    case EndPulling
+    case Pulling(offset: CGPoint, threshold: CGFloat)
     case StartRefreshing
     case EndRefreshing
 }
@@ -54,7 +52,6 @@ public class SmartRefresher: UIView {
     public var state: SmartRefresherState { return stateInternal }
     public var useActivityIndicatorView: Bool = true
     public var activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-    public var pullingImageView = UIImageView(frame: CGRect.zero)
     
     private weak var scrollView: UIScrollView?
     private var stateInternal = SmartRefresherState.None
@@ -82,21 +79,16 @@ public class SmartRefresher: UIView {
         scrollView.addObserver(self, forKeyPath: "contentOffset", options: options, context: nil)
         scrollView.addObserver(self, forKeyPath: "contentInset", options: options, context: nil)
         
-        let origin = CGPoint.zero
+        let origin = CGPoint(x: 0.0, y: -height)
         let size = CGSize(width: UIScreen.mainScreen().bounds.width, height: height)
         frame = CGRect(origin: origin, size: size)
         clipsToBounds = true
         
         let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: activityIndicatorViewStyle)
-        activityIndicatorView.center = center
+        activityIndicatorView.center = CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0)
         activityIndicatorView.hidesWhenStopped = true
         addSubview(activityIndicatorView)
         self.activityIndicatorView = activityIndicatorView
-        
-        let imageSize = CGSize(width: height / 2.0, height: height / 2.0)
-        pullingImageView.frame = CGRect(origin: CGPoint.zero, size: imageSize)
-        pullingImageView.center = CGPoint(x: center.x, y: -frame.height)
-        addSubview(pullingImageView)
     }
     
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -120,22 +112,12 @@ public class SmartRefresher: UIView {
         
         switch state {
         case .Loading:
-            frame.origin.y = distanceOffset.y - height
+            break
         case .None:
-            frame.origin.y = distanceOffset.y
-            pullingImageView.center = CGPoint(x: frame.size.width / 2.0, y: -distanceOffset.y - height / 2.0)
-            if recoveringInitialState {
-                pullingImageView.hidden = true
-            } else if distanceOffset.y < 0 && state == .None {
-                pullingImageView.hidden = false
-            } else {
-                pullingImageView.hidden = true
+            if distanceOffset.y <= 0 {
+                eventHandler?(event: .Pulling(offset: distanceOffset, threshold: -height))
             }
-            
-            if scrollView.dragging {
-                eventHandler?(event: .Pulling(offset: distanceOffset))
-            }
-            if scrollView.dragging && distanceOffset.y < -height {
+            if scrollView.decelerating && distanceOffset.y < -height {
                 startRefresh()
             }
         }
@@ -145,11 +127,13 @@ public class SmartRefresher: UIView {
         guard let scrollView = scrollView else { return }
         if state == .Loading { return }
         stateInternal = .Loading
-        scrollView.contentInset.top = scrollView.contentInset.top + height
+        UIView.animateWithDuration(0.25) { [weak self] () -> Void in
+            guard let s = self else { return }
+            scrollView.contentInset.top = scrollView.contentInset.top + s.height
+        }
         if useActivityIndicatorView {
             activityIndicatorView.startAnimating()
         }
-        pullingImageView.hidden = true
         eventHandler?(event: .StartRefreshing)
     }
     

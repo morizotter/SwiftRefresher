@@ -27,8 +27,8 @@ final class ViewController: UIViewController, UITableViewDataSource {
                 self?.updateItems()
             case .EndRefreshing:
                 print("REFRESH: END")
-            case .Pulling(let offset):
-                print("pulling\(offset)")
+            case .Pulling(let offset, let threshold):
+                print("pulling\(offset), threshold: \(threshold)")
                 break
             }
         }
