@@ -8,12 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		903E34041C33B1B900488D54 /* SmartRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 903E34031C33B1B900488D54 /* SmartRefresher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		907DFF5A1C34759A00DB25EA /* pull.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF561C34759A00DB25EA /* pull.png */; };
+		907DFF5B1C34759A00DB25EA /* pull@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF571C34759A00DB25EA /* pull@2x.png */; };
+		907DFF5C1C34759A00DB25EA /* pull@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF581C34759A00DB25EA /* pull@3x.png */; };
+		907DFF5D1C34759A00DB25EA /* SmartRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907DFF591C34759A00DB25EA /* SmartRefresher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		903E34001C33B1B900488D54 /* SmartRefresher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartRefresher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		903E34031C33B1B900488D54 /* SmartRefresher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartRefresher.h; sourceTree = "<group>"; };
 		903E34051C33B1B900488D54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		907DFF561C34759A00DB25EA /* pull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pull.png; sourceTree = "<group>"; };
+		907DFF571C34759A00DB25EA /* pull@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull@2x.png"; sourceTree = "<group>"; };
+		907DFF581C34759A00DB25EA /* pull@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull@3x.png"; sourceTree = "<group>"; };
+		907DFF591C34759A00DB25EA /* SmartRefresher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartRefresher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +54,10 @@
 		903E34021C33B1B900488D54 /* SmartRefresher */ = {
 			isa = PBXGroup;
 			children = (
+				907DFF561C34759A00DB25EA /* pull.png */,
+				907DFF571C34759A00DB25EA /* pull@2x.png */,
+				907DFF581C34759A00DB25EA /* pull@3x.png */,
+				907DFF591C34759A00DB25EA /* SmartRefresher.swift */,
 				903E34031C33B1B900488D54 /* SmartRefresher.h */,
 				903E34051C33B1B900488D54 /* Info.plist */,
 			);
@@ -120,6 +132,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				907DFF5C1C34759A00DB25EA /* pull@3x.png in Resources */,
+				907DFF5A1C34759A00DB25EA /* pull.png in Resources */,
+				907DFF5B1C34759A00DB25EA /* pull@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +145,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				907DFF5D1C34759A00DB25EA /* SmartRefresher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +244,7 @@
 		903E34091C33B1B900488D54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -239,12 +256,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = molabo.SmartRefresher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		903E340A1C33B1B900488D54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

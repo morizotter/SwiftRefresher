@@ -20,7 +20,6 @@ final class ViewController: UIViewController, UITableViewDataSource {
         tableView.dataSource = self
         
         let refresher = SmartRefresher()
-        refresher.pullingImageView.image = UIImage(named: "pulling")
         refresher.addEventHandler { [weak self] (event) -> Void in
             switch event {
             case .StartRefreshing:
@@ -33,7 +32,7 @@ final class ViewController: UIViewController, UITableViewDataSource {
                 break
             }
         }
-        tableView.smr_addSmartRefresher(refresher)
+        tableView.smr_addRefresher(refresher)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

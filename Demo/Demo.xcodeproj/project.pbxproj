@@ -14,6 +14,9 @@
 		903E34221C33BBC800488D54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 903E34201C33BBC800488D54 /* LaunchScreen.storyboard */; };
 		903E342C1C33BCB700488D54 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 903E342A1C33BCB700488D54 /* Info.plist */; };
 		903E342E1C33BCCD00488D54 /* SmartRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903E342D1C33BCCD00488D54 /* SmartRefresher.swift */; };
+		907DFF611C34776C00DB25EA /* pull.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF5E1C34776C00DB25EA /* pull.png */; };
+		907DFF621C34776C00DB25EA /* pull@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF5F1C34776C00DB25EA /* pull@2x.png */; };
+		907DFF631C34776C00DB25EA /* pull@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907DFF601C34776C00DB25EA /* pull@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		903E342A1C33BCB700488D54 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		903E342B1C33BCB700488D54 /* SmartRefresher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartRefresher.h; sourceTree = "<group>"; };
 		903E342D1C33BCCD00488D54 /* SmartRefresher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartRefresher.swift; sourceTree = "<group>"; };
+		907DFF5E1C34776C00DB25EA /* pull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pull.png; sourceTree = "<group>"; };
+		907DFF5F1C34776C00DB25EA /* pull@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull@2x.png"; sourceTree = "<group>"; };
+		907DFF601C34776C00DB25EA /* pull@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +79,9 @@
 		903E34291C33BCB700488D54 /* SmartRefresher */ = {
 			isa = PBXGroup;
 			children = (
+				907DFF5E1C34776C00DB25EA /* pull.png */,
+				907DFF5F1C34776C00DB25EA /* pull@2x.png */,
+				907DFF601C34776C00DB25EA /* pull@3x.png */,
 				903E342A1C33BCB700488D54 /* Info.plist */,
 				903E342B1C33BCB700488D54 /* SmartRefresher.h */,
 				903E342D1C33BCCD00488D54 /* SmartRefresher.swift */,
@@ -140,8 +149,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				903E342C1C33BCB700488D54 /* Info.plist in Resources */,
+				907DFF611C34776C00DB25EA /* pull.png in Resources */,
 				903E34221C33BBC800488D54 /* LaunchScreen.storyboard in Resources */,
+				907DFF621C34776C00DB25EA /* pull@2x.png in Resources */,
 				903E341F1C33BBC800488D54 /* Assets.xcassets in Resources */,
+				907DFF631C34776C00DB25EA /* pull@3x.png in Resources */,
 				903E341D1C33BBC800488D54 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +319,7 @@
 				903E34281C33BBC800488D54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
