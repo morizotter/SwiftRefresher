@@ -20,13 +20,16 @@ final class ViewController: UIViewController, UITableViewDataSource {
         tableView.dataSource = self
         
         let refresher = SmartRefresher()
-        refresher.addRefreshHandler { [weak self] (refresher) -> Void in
-            switch refresher.state {
-            case .None:
-                print("REFRESH: END")
-            case .Loading:
+        refresher.addEventHandler { [weak self] (event) -> Void in
+            switch event {
+            case .StartRefreshing:
                 print("REFRESH: START")
                 self?.updateItems()
+            case .EndRefreshing:
+                print("REFRESH: END")
+            case .Pulling(let offset):
+                print("pulling\(offset)")
+                break
             }
         }
         tableView.smr_addSmartRefresher(refresher)
