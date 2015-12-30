@@ -11,7 +11,6 @@ import UIKit
 public extension UIScrollView {
     public func smr_addSmartRefresher(refresher: SmartRefresher) {
         insertSubview(refresher, atIndex: 0)
-        
         refresher.setup(self)
     }
     
@@ -70,7 +69,6 @@ public class SmartRefresher: UIView {
         let origin = CGPoint.zero
         let size = CGSize(width: UIScreen.mainScreen().bounds.width, height: height)
         frame = CGRect(origin: origin, size: size)
-        backgroundColor = .redColor()
     }
     
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -83,39 +81,32 @@ public class SmartRefresher: UIView {
         if keyPath == "contentInset" {
             if let value = change["new"] as? NSValue {
                 contentInset = value.UIEdgeInsetsValue()
-                print("change contentInset: \(contentInset)")
             }
         }
         
         if keyPath == "contentOffset" {
             if let value = change["new"] as? NSValue {
                 contentOffset = value.CGPointValue()
-                print("change contentOffset: \(contentOffset)")
             }
         }
         
-        frame.origin.y = distanceOffset.y
+        switch state {
+        case .Loading:
+            frame.origin.y = distanceOffset.y - height
+        case .None:
+            frame.origin.y = distanceOffset.y
+        }
         
-        print("distanceOffset: \(distanceOffset)")
         if scrollView.dragging && distanceOffset.y < -height {
             startRefresh()
         }
-        
-        print("keyPath: \(keyPath)")
-        print("object: \(object)")
-        print("change: \(change)")
-        print("distanceOffset: \(distanceOffset)")
-        print("y: \(frame.origin.y)")
-        print("END-------")
     }
     
     private func startRefresh() {
         if state == .Loading { return }
         state = .Loading
         guard let scrollView = scrollView else { return }
-        print("before: \(scrollView.contentOffset.y)")
         scrollView.contentInset.top = scrollView.contentInset.top + height
-        print("after: \(scrollView.contentOffset.y)")
         refreshedHandler?(refresher: self)
     }
     
@@ -124,6 +115,8 @@ public class SmartRefresher: UIView {
         state = .None
         guard let scrollView = scrollView else { return }
         scrollView.contentInset.top = scrollView.contentInset.top - height
+        scrollView.contentOffset.y = scrollView.contentOffset.y - height
+        scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y + height), animated: true)
         refreshedHandler?(refresher: self)
     }
     
