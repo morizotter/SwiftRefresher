@@ -38,16 +38,19 @@ public protocol SwfitRefresherEventReceivable {
 
 public enum SwiftRefresherState {
     case None
+    case Pulling
     case Refreshing
+    case RecoveringInitialState
 }
 
 public enum SwiftRefresherEvent {
-    case Pulling(offset: CGPoint, threshold: CGFloat)
+    case Pull(offset: CGPoint, threshold: CGFloat)
     case StartRefreshing
     case EndRefreshing
+    case RecoveredToInitialState
 }
 
-public typealias SwiftRefresherStartLoadingHandler = (() -> Void)
+public typealias SwiftRefresherStartRefreshingHandler = (() -> Void)
 public typealias SwiftRefresherEventHandler = ((event: SwiftRefresherEvent) -> Void)
 public typealias SwiftRefresherCustomRefreshViewCreator = (() -> SwfitRefresherEventReceivable)
 
@@ -56,7 +59,7 @@ private let DEFAULT_HEIGHT: CGFloat = 44.0
 public class Refresher: UIView {
     private var stateInternal = SwiftRefresherState.None
     private var eventHandler: SwiftRefresherEventHandler?
-    private var startLoadingHandler: SwiftRefresherStartLoadingHandler?
+    private var startRefreshingHandler: SwiftRefresherStartRefreshingHandler?
     private var contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     private var contentOffset = CGPoint.zero
     private var distanceOffset: CGPoint {
@@ -81,9 +84,9 @@ public class Refresher: UIView {
         self.eventHandler = eventHandler
     }
     
-    convenience public init(startLoadingHandler: SwiftRefresherStartLoadingHandler) {
+    convenience public init(startRefreshingHandler: SwiftRefresherStartRefreshingHandler) {
         self.init()
-        self.startLoadingHandler = startLoadingHandler
+        self.startRefreshingHandler = startRefreshingHandler
     }
     
     public override func willMoveToSuperview(newSuperview: UIView?) {
@@ -123,25 +126,28 @@ public class Refresher: UIView {
         }
         
         switch state {
-        case .Refreshing:
-            break
         case .None:
+            if distanceOffset.y <= 0 {
+                fireEvent(.Pull(offset: distanceOffset, threshold: -height))
+            }
+        case .Pulling:
             if distanceOffset.y >= 0 {
                 hidden = true
             } else {
                 hidden = false
             }
             
-            if !recoveringInitialState {
-                if distanceOffset.y <= 0 {
-                    refreshView.didReceiveEvent(.Pulling(offset: distanceOffset, threshold: -height))
-                    eventHandler?(event: .Pulling(offset: distanceOffset, threshold: -height))
-                }
+            if distanceOffset.y <= 0 {
+                fireEvent(.Pull(offset: distanceOffset, threshold: -height))
             }
             
             if scrollView.decelerating && distanceOffset.y < -height {
                 startRefresh()
             }
+        case .RecoveringInitialState:
+            break
+        case .Refreshing:
+            break
         }
     }
     
@@ -179,16 +185,13 @@ public class Refresher: UIView {
             scrollView.contentInset.top = scrollView.contentInset.top + s.height
         }
         
-        refreshView.didReceiveEvent(.StartRefreshing)
-        startLoadingHandler?()
-        eventHandler?(event: .StartRefreshing)
+        fireEvent(.StartRefreshing)
     }
     
     private func endRefresh() {
         guard let scrollView = superview as? UIScrollView else { return }
         if state == .None { return }
-        stateInternal = .None
-        recoveringInitialState = true
+        fireEvent(.EndRefreshing)
         scrollView.contentInset.top = scrollView.contentInset.top - height
         scrollView.contentOffset.y = scrollView.contentOffset.y - height
         let initialPoint = CGPoint(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y + height)
@@ -198,9 +201,23 @@ public class Refresher: UIView {
         let when  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(when, dispatch_get_main_queue()) { [weak self] () -> Void in
             guard let s = self else { return }
-            s.recoveringInitialState = false
-            s.refreshView.didReceiveEvent(.EndRefreshing)
-            s.eventHandler?(event: .EndRefreshing)
+            s.fireEvent(.RecoveredToInitialState)
         }
+    }
+    
+    private func fireEvent(event: SwiftRefresherEvent) {
+        switch event {
+        case .Pull:
+            stateInternal = .Pulling
+        case .StartRefreshing:
+            stateInternal = .Refreshing
+            startRefreshingHandler?()
+        case .EndRefreshing:
+            stateInternal = .RecoveringInitialState
+        case .RecoveredToInitialState:
+            stateInternal = .None
+        }
+        eventHandler?(event: event)
+        refreshView.didReceiveEvent(event)
     }
 }

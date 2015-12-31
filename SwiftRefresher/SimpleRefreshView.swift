@@ -41,7 +41,7 @@ public class SimpleRefreshView: UIView, SwfitRefresherEventReceivable {
     }
     
     func commonInit() {
-        let aView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        let aView = UIActivityIndicatorView(activityIndicatorStyle: activityIndicatorViewStyle)
         aView.hidesWhenStopped = true
         addSubview(aView)
         aView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,13 +72,15 @@ public class SimpleRefreshView: UIView, SwfitRefresherEventReceivable {
     
     public func didReceiveEvent(event: SwiftRefresherEvent) {
         switch event {
+        case .Pull:
+            pullingImageView.hidden = false
         case .StartRefreshing:
             pullingImageView.hidden = true
             activityIndicatorView.startAnimating()
         case .EndRefreshing:
             activityIndicatorView.stopAnimating()
-        case .Pulling:
-            pullingImageView.hidden = false
+        case .RecoveredToInitialState:
+            break
         }
     }
 }
