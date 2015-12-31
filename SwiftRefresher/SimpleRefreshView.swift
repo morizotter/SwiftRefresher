@@ -8,14 +8,26 @@
 
 import UIKit
 
+private let DEFAULT_ACTIVITY_INDICATOR_VIEW_STYLE: UIActivityIndicatorViewStyle = .Gray
+private let DEFAULT_PULLING_IMAGE: UIImage? = {
+    if let imagePath = NSBundle(forClass: SimpleRefreshView.self).pathForResource("pull", ofType: "png") {
+        return UIImage(contentsOfFile: imagePath)
+    }
+    return nil
+}()
+
 public class SimpleRefreshView: UIView, SwfitRefresherEventReceivable {
     private weak var activityIndicatorView: UIActivityIndicatorView!
     private weak var pullingImageView: UIImageView!
     
-    public var activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+    private var activityIndicatorViewStyle = DEFAULT_ACTIVITY_INDICATOR_VIEW_STYLE
+    private var pullingImage: UIImage?
     
-    private init() {
-        super.init(frame: CGRect.zero)
+    convenience init(activityIndicatorViewStyle: UIActivityIndicatorViewStyle, pullingImage: UIImage? = DEFAULT_PULLING_IMAGE) {
+        self.init(frame: CGRect.zero)
+        self.activityIndicatorViewStyle = activityIndicatorViewStyle
+        self.pullingImage = pullingImage
+        commonInit()
     }
     
     public override init(frame: CGRect) {
@@ -43,9 +55,7 @@ public class SimpleRefreshView: UIView, SwfitRefresherEventReceivable {
         
         let pView = UIImageView(frame: CGRect.zero)
         pView.contentMode = .ScaleAspectFit
-        if let imagePath = NSBundle(forClass: SimpleRefreshView.self).pathForResource("pull", ofType: "png") {
-            pView.image = UIImage(contentsOfFile: imagePath)
-        }
+        pView.image = pullingImage
         addSubview(pView)
         pView.translatesAutoresizingMaskIntoConstraints = false
         addConstraints(

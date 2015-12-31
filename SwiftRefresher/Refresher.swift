@@ -151,12 +151,10 @@ public class Refresher: UIView {
         frame = CGRect(origin: origin, size: size)
         clipsToBounds = true
         
-        refreshView = customRefreshViewCreator?() ?? SimpleRefreshView(frame: CGRect.zero)
-        
+        refreshView = customRefreshViewCreator?() ?? SimpleRefreshView(activityIndicatorViewStyle: .Gray)
         guard let r = refreshView as? UIView else {
             fatalError("CustomRefreshView must be a subclass of UIView")
         }
-        
         addSubview(r)
         r.translatesAutoresizingMaskIntoConstraints = false
         let constraints = [
