@@ -32,6 +32,10 @@ public extension UIScrollView {
     }
 }
 
+public protocol RefresherEventReceivable {
+    func didReceiveEvent(event: RefresherEvent)
+}
+
 public enum RefresherState {
     case None
     case Loading
@@ -51,58 +55,6 @@ private let DEFAULT_HEIGHT: CGFloat = 44.0
 
 public protocol RefresherEventReceivable {
     func didReceiveEvent(event: RefresherEvent)
-}
-
-public class SimpleRefreshView: UIView, RefresherEventReceivable {
-    private weak var activityIndicatorView: UIActivityIndicatorView!
-    private weak var pullingImageView: UIImageView!
-    
-    public var pullingImageSize = CGSize(width: 22.0, height: 22.0)
-    public var activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-    
-    private init() {
-        super.init(frame: CGRect.zero)
-    }
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-     public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    func commonInit() {
-        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-        activityIndicatorView.center = CGPoint(x: UIScreen.mainScreen().bounds.width / 2.0, y: 44.0 / 2.0)
-        activityIndicatorView.hidesWhenStopped = true
-        addSubview(activityIndicatorView)
-        self.activityIndicatorView = activityIndicatorView
-        
-        let pullingImageView = UIImageView(frame: CGRect.zero)
-        pullingImageView.frame = CGRect(origin: CGPoint.zero, size: pullingImageSize)
-        pullingImageView.center = CGPoint(x: UIScreen.mainScreen().bounds.width / 2.0, y: 44.0 / 2.0)
-        pullingImageView.contentMode = .ScaleAspectFit
-        if let imagePath = NSBundle(forClass: RefresherView.self).pathForResource("pull", ofType: "png") {
-            pullingImageView.image = UIImage(contentsOfFile: imagePath)
-        }
-        addSubview(pullingImageView)
-        self.pullingImageView = pullingImageView
-    }
-    
-    public func didReceiveEvent(event: RefresherEvent) {
-        switch event {
-        case .StartRefreshing:
-            pullingImageView.hidden = true
-            activityIndicatorView.startAnimating()
-        case .EndRefreshing:
-            activityIndicatorView.stopAnimating()
-        case .Pulling:
-            pullingImageView.hidden = false
-        }
-    }
 }
 
 public class RefresherView: UIView {
@@ -143,8 +95,16 @@ public class RefresherView: UIView {
         guard let r = refreshView as? UIView else {
             fatalError("CustomRefreshView must be a subclass of UIView")
         }
-        r.frame = CGRect(origin: CGPoint.zero, size: size)
+        
         addSubview(r)
+        r.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [
+            NSLayoutConstraint(item: r, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: r, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: r, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: r, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0),
+        ]
+        addConstraints(constraints)
     }
     
     public override func willMoveToSuperview(newSuperview: UIView?) {
