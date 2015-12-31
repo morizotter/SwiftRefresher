@@ -22,9 +22,6 @@ final class ViewController: UIViewController, UITableViewDataSource {
         let refresher = Refresher { [weak self] () -> Void in
             self?.updateItems()
         }
-        refresher.createCustomRefreshView { () -> SwfitRefresherEventReceivable in
-            return SimpleRefreshView(activityIndicatorViewStyle: .Gray)
-        }
         tableView.srf_addRefresher(refresher)
     }
     

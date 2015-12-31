@@ -30,9 +30,7 @@ s.tableView.srf_endRefreshing()
 
 ### Use with a little Customize
 
-The view of SwiftRefresher is independent from its main system. The only requirement is to conform to `SwfitRefresherEventReceivable` protocol.
-
-Default view is `SimpleRefreshView`. You can use it with a little customize like this below:
+The view of SwiftRefresher is independent from its main system. The only requirement is to conform to `SwfitRefresherEventReceivable` protocol. Default view is `SimpleRefreshView`. You can use it with a little customization like this below:
 
 ```Swift
 let refresher = Refresher { [weak self] () -> Void in
