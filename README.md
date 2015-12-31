@@ -1,5 +1,6 @@
 # SimpleRefresher
-Experimental
+
+:seedling: This is Experimental. Breaking change will be done.
 
 ![refresher.gif](refresher.gif)
 
