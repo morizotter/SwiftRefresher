@@ -1,6 +1,6 @@
 # SwiftRefresher
 
-`UIRefreshControl` on UIViewController's UITableView works strange. SwiftRefresher is on of the alternatives of UIRefreshControl.
+`UIRefreshControl` on UIViewController's UITableView works strange. SwiftRefresher is one of the alternatives of UIRefreshControl.
 
 ![refresher.gif](refresher.gif)
 
