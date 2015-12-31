@@ -38,7 +38,7 @@ public protocol RefresherEventReceivable {
 
 public enum RefresherState {
     case None
-    case Loading
+    case Refreshing
 }
 
 public enum RefresherEvent {
@@ -146,7 +146,7 @@ public class Refresher: UIView {
         }
         
         switch state {
-        case .Loading:
+        case .Refreshing:
             break
         case .None:
             if distanceOffset.y >= 0 {
@@ -176,8 +176,8 @@ public class Refresher: UIView {
     
     private func startRefresh() {
         guard let scrollView = superview as? UIScrollView else { return }
-        if state == .Loading { return }
-        stateInternal = .Loading
+        if state == .Refreshing { return }
+        stateInternal = .Refreshing
         UIView.animateWithDuration(0.25) { [weak self] () -> Void in
             guard let s = self else { return }
             scrollView.contentInset.top = scrollView.contentInset.top + s.height

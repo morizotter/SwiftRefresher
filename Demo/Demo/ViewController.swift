@@ -19,7 +19,7 @@ final class ViewController: UIViewController, UITableViewDataSource {
         
         tableView.dataSource = self
         
-        let refresher = RefresherView { [weak self] () -> Void in
+        let refresher = Refresher { [weak self] () -> Void in
             self?.updateItems()
         }
         tableView.smr_addRefresher(refresher)
