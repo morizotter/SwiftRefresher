@@ -70,17 +70,17 @@ public class SimpleRefreshView: UIView, SwfitRefresherEventReceivable {
         self.pullingImageView = pView
     }
     
-    public func didReceiveEvent(event: SwiftRefresherEvent) {
-        switch event {
-        case .Pull:
-            pullingImageView.hidden = false
-        case .StartRefreshing:
-            pullingImageView.hidden = true
-            activityIndicatorView.startAnimating()
-        case .EndRefreshing:
-            activityIndicatorView.stopAnimating()
-        case .RecoveredToInitialState:
-            break
-        }
+public func didReceiveEvent(event: SwiftRefresherEvent) {
+    switch event {
+    case .Pull:
+        pullingImageView.hidden = false
+    case .StartRefreshing:
+        pullingImageView.hidden = true
+        activityIndicatorView.startAnimating()
+    case .EndRefreshing:
+        activityIndicatorView.stopAnimating()
+    case .RecoveredToInitialState:
+        break
     }
+}
 }
