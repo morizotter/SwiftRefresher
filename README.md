@@ -1,5 +1,8 @@
 # SwiftRefresher
 
+[![Version](https://img.shields.io/cocoapods/v/SwiftRefresher.svg?style=flat)](http://cocoadocs.org/docsets/SwiftRefresher) [![License](https://img.shields.io/cocoapods/l/SwiftRefresher.svg?style=flat)](http://cocoadocs.org/docsets/SwiftRefresher) [![Platform](https://img.shields.io/cocoapods/p/SwiftRefresher.svg?style=flat)](http://cocoadocs.org/docsets/SwiftRefresher)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/morizotter/SwiftRefresher)
+
 `UIRefreshControl` on UIViewController's UITableView works strange. SwiftRefresher is on of the alternatives of UIRefreshControl.
 
 ![refresher.gif](refresher.gif)
@@ -90,6 +93,24 @@ Just add to your Cartfile:
 
 ```ogdl
 github "morizotter/SwiftRefresher"
+```
+
+###Installing with CocoaPods
+
+[CocoaPods](http://cocoapods.org) is a centralised dependency manager that automates the process of adding libraries to your Cocoa application. You can install it with the following command:
+
+```bash
+$ gem update
+$ gem install cocoapods
+$ pods --version
+```
+
+To integrate TouchVisualizer into your Xcode project using CocoaPods, specify it in your `Podfile` and run `pod install`.
+
+```bash
+platform :ios, '8.1'
+use_frameworks!
+pod "SwiftRefresher", '~>0.9.0'
 ```
 
 ### Manual Installation

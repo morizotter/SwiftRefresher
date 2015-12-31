@@ -23,7 +23,7 @@ public class SimpleRefreshView: UIView, SwfitRefresherEventReceivable {
     private var activityIndicatorViewStyle = DEFAULT_ACTIVITY_INDICATOR_VIEW_STYLE
     private var pullingImage: UIImage?
     
-    convenience init(activityIndicatorViewStyle: UIActivityIndicatorViewStyle, pullingImage: UIImage? = DEFAULT_PULLING_IMAGE) {
+    public convenience init(activityIndicatorViewStyle: UIActivityIndicatorViewStyle, pullingImage: UIImage? = DEFAULT_PULLING_IMAGE) {
         self.init(frame: CGRect.zero)
         self.activityIndicatorViewStyle = activityIndicatorViewStyle
         self.pullingImage = pullingImage
@@ -40,7 +40,7 @@ public class SimpleRefreshView: UIView, SwfitRefresherEventReceivable {
         commonInit()
     }
     
-    func commonInit() {
+    private func commonInit() {
         let aView = UIActivityIndicatorView(activityIndicatorStyle: activityIndicatorViewStyle)
         aView.hidesWhenStopped = true
         addSubview(aView)
