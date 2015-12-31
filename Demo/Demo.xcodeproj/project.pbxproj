@@ -80,11 +80,11 @@
 			isa = PBXGroup;
 			children = (
 				907DFF8E1C347B4400DB25EA /* Info.plist */,
+				907DFF921C347B4400DB25EA /* SimpleRefresher.h */,
+				907DFF931C347B4400DB25EA /* SimpleRefresher.swift */,
 				907DFF8F1C347B4400DB25EA /* pull.png */,
 				907DFF901C347B4400DB25EA /* pull@2x.png */,
 				907DFF911C347B4400DB25EA /* pull@3x.png */,
-				907DFF921C347B4400DB25EA /* SimpleRefresher.h */,
-				907DFF931C347B4400DB25EA /* SimpleRefresher.swift */,
 			);
 			name = SimpleRefresher;
 			path = ../SimpleRefresher;

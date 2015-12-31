@@ -9,15 +9,15 @@
 import UIKit
 
 public extension UIScrollView {
-    public func smr_addRefresher(refresher: SimpleRefresher) {
+    public func smr_addRefresher(refresher: RefresherView) {
         insertSubview(refresher, atIndex: 0)
-        refresher.setup(self)
+        refresher.setup()
     }
     
     public func smr_removeRefresher() {
         guard let refreshers = smr_findRefreshers() where refreshers.count > 0 else { return }
         refreshers.forEach {
-                $0.removeFromSuperview()
+            $0.removeFromSuperview()
         }
     }
     
@@ -27,45 +27,97 @@ public extension UIScrollView {
         }
     }
     
-    private func smr_findRefreshers() -> [SimpleRefresher]? {
-        return subviews.filter { $0 is SimpleRefresher }.flatMap { $0 as? SimpleRefresher }
+    private func smr_findRefreshers() -> [RefresherView]? {
+        return subviews.filter { $0 is RefresherView }.flatMap { $0 as? RefresherView }
     }
 }
 
-public enum SimpleRefresherState {
+public enum RefresherState {
     case None
     case Loading
 }
 
-public enum SimpleRefresherEvent {
+public enum RefresherEvent {
     case Pulling(offset: CGPoint, threshold: CGFloat)
     case StartRefreshing
     case EndRefreshing
 }
 
-public typealias SimpleRefresherEventHandler = ((event: SimpleRefresherEvent) -> Void)
-public typealias SimpleRefresherConfigureHandler = ((refresher: SimpleRefresher) -> Void)
+public typealias RefresherEventHandler = ((event: RefresherEvent) -> Void)
+
+public typealias RefresherCreateCustomRefreshView = (() -> RefresherEventReceivable)
 
 private let DEFAULT_HEIGHT: CGFloat = 44.0
 
-public class SimpleRefresher: UIView {
+public protocol RefresherEventReceivable {
+    func didReceiveEvent(event: RefresherEvent)
+}
+
+public class SimpleRefreshView: UIView, RefresherEventReceivable {
+    private weak var activityIndicatorView: UIActivityIndicatorView!
+    private weak var pullingImageView: UIImageView!
     
-    public var state: SimpleRefresherState { return stateInternal }
-    public var useActivityIndicatorView: Bool = true
+    public var pullingImageSize = CGSize(width: 22.0, height: 22.0)
     public var activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-    public var pullingImageView = UIImageView(frame: CGRect.zero)
     
-    private var stateInternal = SimpleRefresherState.None
-    private var eventHandler: SimpleRefresherEventHandler?
-    private var configureHandler: SimpleRefresherConfigureHandler?
+    private init() {
+        super.init(frame: CGRect.zero)
+    }
+    
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+     public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    func commonInit() {
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        activityIndicatorView.center = CGPoint(x: UIScreen.mainScreen().bounds.width / 2.0, y: 44.0 / 2.0)
+        activityIndicatorView.hidesWhenStopped = true
+        addSubview(activityIndicatorView)
+        self.activityIndicatorView = activityIndicatorView
+        
+        let pullingImageView = UIImageView(frame: CGRect.zero)
+        pullingImageView.frame = CGRect(origin: CGPoint.zero, size: pullingImageSize)
+        pullingImageView.center = CGPoint(x: UIScreen.mainScreen().bounds.width / 2.0, y: 44.0 / 2.0)
+        pullingImageView.contentMode = .ScaleAspectFit
+        if let imagePath = NSBundle(forClass: RefresherView.self).pathForResource("pull", ofType: "png") {
+            pullingImageView.image = UIImage(contentsOfFile: imagePath)
+        }
+        addSubview(pullingImageView)
+        self.pullingImageView = pullingImageView
+    }
+    
+    public func didReceiveEvent(event: RefresherEvent) {
+        switch event {
+        case .StartRefreshing:
+            pullingImageView.hidden = true
+            activityIndicatorView.startAnimating()
+        case .EndRefreshing:
+            activityIndicatorView.stopAnimating()
+        case .Pulling:
+            pullingImageView.hidden = false
+        }
+    }
+}
+
+public class RefresherView: UIView {
+    private var stateInternal = RefresherState.None
+    private var eventHandler: RefresherEventHandler?
     private var contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     private var contentOffset = CGPoint.zero
     private var distanceOffset: CGPoint {
         return CGPoint(x: contentInset.left + contentOffset.x, y: contentInset.top + contentOffset.y)
     }
-    private weak var activityIndicatorView: UIActivityIndicatorView!
     private var recoveringInitialState: Bool = false
+    private var refreshView: RefresherEventReceivable!
+    private var createCustomRefreshView: RefresherCreateCustomRefreshView?
     
+    public var state: RefresherState { return stateInternal }
     public var height: CGFloat = DEFAULT_HEIGHT
     
     deinit {
@@ -75,35 +127,24 @@ public class SimpleRefresher: UIView {
         }
     }
     
-    convenience public init(eventHandler: SimpleRefresherEventHandler) {
+    convenience public init(eventHandler: RefresherEventHandler) {
         self.init()
         self.eventHandler = eventHandler
     }
     
-    public func setup(scrollView: UIScrollView?) {
+    public func setup() {
         let origin = CGPoint(x: 0.0, y: -height)
         let size = CGSize(width: UIScreen.mainScreen().bounds.width, height: height)
         frame = CGRect(origin: origin, size: size)
         clipsToBounds = true
         
-        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: activityIndicatorViewStyle)
-        activityIndicatorView.center = CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0)
-        activityIndicatorView.hidesWhenStopped = true
-        addSubview(activityIndicatorView)
-        self.activityIndicatorView = activityIndicatorView
+        refreshView = createCustomRefreshView?() ?? SimpleRefreshView(frame: CGRect.zero)
         
-        let imageSize = CGSize(width: height / 2.0, height: height / 2.0)
-        pullingImageView.frame = CGRect(origin: CGPoint.zero, size: imageSize)
-        pullingImageView.center = CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0)
-        pullingImageView.contentMode = .ScaleAspectFit
-        if let imagePath = NSBundle(forClass: SimpleRefresher.self).pathForResource("pull", ofType: "png") {
-            pullingImageView.image = UIImage(contentsOfFile: imagePath)
+        guard let r = refreshView as? UIView else {
+            fatalError("CustomRefreshView must be a subclass of UIView")
         }
-        addSubview(pullingImageView)
-        
-//        pullingImageView.backgroundColor = .redColor()
-//        backgroundColor = .blueColor()
-        configureHandler?(refresher: self)
+        r.frame = CGRect(origin: CGPoint.zero, size: size)
+        addSubview(r)
     }
     
     public override func willMoveToSuperview(newSuperview: UIView?) {
@@ -144,7 +185,7 @@ public class SimpleRefresher: UIView {
         
         switch state {
         case .Loading:
-            pullingImageView.hidden = true
+            break
         case .None:
             if distanceOffset.y >= 0 {
                 hidden = true
@@ -152,12 +193,9 @@ public class SimpleRefresher: UIView {
                 hidden = false
             }
             
-            if recoveringInitialState {
-                pullingImageView.hidden = true
-            } else {
-                pullingImageView.hidden = false
-                
+            if !recoveringInitialState {
                 if distanceOffset.y <= 0 {
+                    refreshView.didReceiveEvent(.Pulling(offset: distanceOffset, threshold: -height))
                     eventHandler?(event: .Pulling(offset: distanceOffset, threshold: -height))
                 }
             }
@@ -182,10 +220,8 @@ public class SimpleRefresher: UIView {
             guard let s = self else { return }
             scrollView.contentInset.top = scrollView.contentInset.top + s.height
         }
-        if useActivityIndicatorView {
-            activityIndicatorView.startAnimating()
-        }
-        pullingImageView.hidden = true
+        
+        refreshView.didReceiveEvent(.StartRefreshing)
         eventHandler?(event: .StartRefreshing)
     }
     
@@ -198,22 +234,18 @@ public class SimpleRefresher: UIView {
         scrollView.contentOffset.y = scrollView.contentOffset.y - height
         let initialPoint = CGPoint(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y + height)
         scrollView.setContentOffset(initialPoint, animated: true)
-        if useActivityIndicatorView {
-            activityIndicatorView.stopAnimating()
-        }
+
         let delay = 0.25 * Double(NSEC_PER_SEC)
         let when  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(when, dispatch_get_main_queue()) { [weak self] () -> Void in
-            self?.recoveringInitialState = false
-            self?.eventHandler?(event: .EndRefreshing)
+            guard let s = self else { return }
+            s.recoveringInitialState = false
+            s.refreshView.didReceiveEvent(.EndRefreshing)
+            s.eventHandler?(event: .EndRefreshing)
         }
     }
     
-    public func addEventHandler(handler: SimpleRefresherEventHandler) {
+    public func addEventHandler(handler: RefresherEventHandler) {
         eventHandler = handler
-    }
-    
-    public func configureRefresher(handler: SimpleRefresherConfigureHandler) {
-        configureHandler = handler
     }
 }
