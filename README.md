@@ -105,7 +105,7 @@ $ gem install cocoapods
 $ pods --version
 ```
 
-To integrate TouchVisualizer into your Xcode project using CocoaPods, specify it in your `Podfile` and run `pod install`.
+To integrate SwiftRefresher into your Xcode project using CocoaPods, specify it in your `Podfile` and run `pod install`.
 
 ```bash
 platform :ios, '8.1'
@@ -115,7 +115,7 @@ pod "SwiftRefresher", '~>0.9.0'
 
 ### Manual Installation
 
-To install SwiftyDrop without a dependency manager, please add all of the files in `/SwiftRefresher` to your Xcode Project.
+To install SwiftRefresher without a dependency manager, please add all of the files in `/SwiftRefresher` to your Xcode Project.
 
 ## Contribution
 
