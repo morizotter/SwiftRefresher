@@ -47,19 +47,16 @@ public enum RefresherEvent {
     case EndRefreshing
 }
 
+public typealias RefresherStartLoadingHandler = (() -> Void)
 public typealias RefresherEventHandler = ((event: RefresherEvent) -> Void)
-
 public typealias RefresherCreateCustomRefreshView = (() -> RefresherEventReceivable)
 
 private let DEFAULT_HEIGHT: CGFloat = 44.0
 
-public protocol RefresherEventReceivable {
-    func didReceiveEvent(event: RefresherEvent)
-}
-
 public class RefresherView: UIView {
     private var stateInternal = RefresherState.None
     private var eventHandler: RefresherEventHandler?
+    private var startLoadingHandler: RefresherStartLoadingHandler?
     private var contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     private var contentOffset = CGPoint.zero
     private var distanceOffset: CGPoint {
@@ -82,6 +79,11 @@ public class RefresherView: UIView {
     convenience public init(eventHandler: RefresherEventHandler) {
         self.init()
         self.eventHandler = eventHandler
+    }
+    
+    convenience public init(startLoadingHandler: RefresherStartLoadingHandler) {
+        self.init()
+        self.startLoadingHandler = startLoadingHandler
     }
     
     public func setup() {
@@ -182,6 +184,7 @@ public class RefresherView: UIView {
         }
         
         refreshView.didReceiveEvent(.StartRefreshing)
+        startLoadingHandler?()
         eventHandler?(event: .StartRefreshing)
     }
     
@@ -203,9 +206,5 @@ public class RefresherView: UIView {
             s.refreshView.didReceiveEvent(.EndRefreshing)
             s.eventHandler?(event: .EndRefreshing)
         }
-    }
-    
-    public func addEventHandler(handler: RefresherEventHandler) {
-        eventHandler = handler
     }
 }
