@@ -1,5 +1,5 @@
 //
-//  SimpleRefresher.swift
+//  SwiftRefresher.swift
 //  Demo
 //
 //  Created by MORITANAOKI on 2015/12/30.
