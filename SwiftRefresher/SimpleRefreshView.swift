@@ -43,7 +43,7 @@ public class SimpleRefreshView: UIView, RefresherEventReceivable {
         
         let pView = UIImageView(frame: CGRect.zero)
         pView.contentMode = .ScaleAspectFit
-        if let imagePath = NSBundle(forClass: RefresherView.self).pathForResource("pull", ofType: "png") {
+        if let imagePath = NSBundle(forClass: SimpleRefreshView.self).pathForResource("pull", ofType: "png") {
             pView.image = UIImage(contentsOfFile: imagePath)
         }
         addSubview(pView)

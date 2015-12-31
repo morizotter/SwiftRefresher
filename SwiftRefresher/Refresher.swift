@@ -1,5 +1,5 @@
 //
-//  SwiftRefresher.swift
+//  Refresher.swift
 //  Demo
 //
 //  Created by MORITANAOKI on 2015/12/30.
@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UIScrollView {
-    public func smr_addRefresher(refresher: RefresherView) {
+    public func smr_addRefresher(refresher: Refresher) {
         insertSubview(refresher, atIndex: 0)
         refresher.setup()
     }
@@ -27,8 +27,8 @@ public extension UIScrollView {
         }
     }
     
-    private func smr_findRefreshers() -> [RefresherView]? {
-        return subviews.filter { $0 is RefresherView }.flatMap { $0 as? RefresherView }
+    private func smr_findRefreshers() -> [Refresher]? {
+        return subviews.filter { $0 is Refresher }.flatMap { $0 as? Refresher }
     }
 }
 
@@ -53,7 +53,7 @@ public typealias RefresherCreateCustomRefreshView = (() -> RefresherEventReceiva
 
 private let DEFAULT_HEIGHT: CGFloat = 44.0
 
-public class RefresherView: UIView {
+public class Refresher: UIView {
     private var stateInternal = RefresherState.None
     private var eventHandler: RefresherEventHandler?
     private var startLoadingHandler: RefresherStartLoadingHandler?
