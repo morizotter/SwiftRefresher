@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SimpleRefreshView: UIView, RefresherEventReceivable {
+public class SimpleRefreshView: UIView, SwfitRefresherEventReceivable {
     private weak var activityIndicatorView: UIActivityIndicatorView!
     private weak var pullingImageView: UIImageView!
     
@@ -60,7 +60,7 @@ public class SimpleRefreshView: UIView, RefresherEventReceivable {
         self.pullingImageView = pView
     }
     
-    public func didReceiveEvent(event: RefresherEvent) {
+    public func didReceiveEvent(event: SwiftRefresherEvent) {
         switch event {
         case .StartRefreshing:
             pullingImageView.hidden = true

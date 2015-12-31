@@ -22,7 +22,7 @@ final class ViewController: UIViewController, UITableViewDataSource {
         let refresher = Refresher { [weak self] () -> Void in
             self?.updateItems()
         }
-        tableView.smr_addRefresher(refresher)
+        tableView.srf_addRefresher(refresher)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,7 +53,7 @@ final class ViewController: UIViewController, UITableViewDataSource {
                 let text = "\(NSDate())"
                 s.items.append(text)
                 s.tableView.reloadData()
-                s.tableView.smr_endRefreshing()
+                s.tableView.srf_endRefreshing()
             }
         }
     }

@@ -9,64 +9,64 @@
 import UIKit
 
 public extension UIScrollView {
-    public func smr_addRefresher(refresher: Refresher) {
+    public func srf_addRefresher(refresher: Refresher) {
         insertSubview(refresher, atIndex: 0)
         refresher.setup()
     }
     
-    public func smr_removeRefresher() {
-        guard let refreshers = smr_findRefreshers() where refreshers.count > 0 else { return }
+    public func srf_removeRefresher() {
+        guard let refreshers = srf_findRefreshers() where refreshers.count > 0 else { return }
         refreshers.forEach {
             $0.removeFromSuperview()
         }
     }
     
-    public func smr_endRefreshing() {
-        smr_findRefreshers()?.forEach {
+    public func srf_endRefreshing() {
+        srf_findRefreshers()?.forEach {
             $0.endRefresh()
         }
     }
     
-    private func smr_findRefreshers() -> [Refresher]? {
+    private func srf_findRefreshers() -> [Refresher]? {
         return subviews.filter { $0 is Refresher }.flatMap { $0 as? Refresher }
     }
 }
 
-public protocol RefresherEventReceivable {
-    func didReceiveEvent(event: RefresherEvent)
+public protocol SwfitRefresherEventReceivable {
+    func didReceiveEvent(event: SwiftRefresherEvent)
 }
 
-public enum RefresherState {
+public enum SwiftRefresherState {
     case None
     case Refreshing
 }
 
-public enum RefresherEvent {
+public enum SwiftRefresherEvent {
     case Pulling(offset: CGPoint, threshold: CGFloat)
     case StartRefreshing
     case EndRefreshing
 }
 
-public typealias RefresherStartLoadingHandler = (() -> Void)
-public typealias RefresherEventHandler = ((event: RefresherEvent) -> Void)
-public typealias RefresherCreateCustomRefreshView = (() -> RefresherEventReceivable)
+public typealias SwiftRefresherStartLoadingHandler = (() -> Void)
+public typealias SwiftRefresherEventHandler = ((event: SwiftRefresherEvent) -> Void)
+public typealias SwiftRefresherCustomRefreshViewCreator = (() -> SwfitRefresherEventReceivable)
 
 private let DEFAULT_HEIGHT: CGFloat = 44.0
 
 public class Refresher: UIView {
-    private var stateInternal = RefresherState.None
-    private var eventHandler: RefresherEventHandler?
-    private var startLoadingHandler: RefresherStartLoadingHandler?
+    private var stateInternal = SwiftRefresherState.None
+    private var eventHandler: SwiftRefresherEventHandler?
+    private var startLoadingHandler: SwiftRefresherStartLoadingHandler?
     private var contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     private var contentOffset = CGPoint.zero
     private var distanceOffset: CGPoint {
         return CGPoint(x: contentInset.left + contentOffset.x, y: contentInset.top + contentOffset.y)
     }
     private var recoveringInitialState: Bool = false
-    private var refreshView: RefresherEventReceivable!
-    private var createCustomRefreshView: RefresherCreateCustomRefreshView?
+    private var refreshView: SwfitRefresherEventReceivable!
+    private var customRefreshViewCreator: SwiftRefresherCustomRefreshViewCreator?
     
-    public var state: RefresherState { return stateInternal }
+    public var state: SwiftRefresherState { return stateInternal }
     public var height: CGFloat = DEFAULT_HEIGHT
     
     deinit {
@@ -76,37 +76,14 @@ public class Refresher: UIView {
         }
     }
     
-    convenience public init(eventHandler: RefresherEventHandler) {
+    convenience public init(eventHandler: SwiftRefresherEventHandler) {
         self.init()
         self.eventHandler = eventHandler
     }
     
-    convenience public init(startLoadingHandler: RefresherStartLoadingHandler) {
+    convenience public init(startLoadingHandler: SwiftRefresherStartLoadingHandler) {
         self.init()
         self.startLoadingHandler = startLoadingHandler
-    }
-    
-    public func setup() {
-        let origin = CGPoint(x: 0.0, y: -height)
-        let size = CGSize(width: UIScreen.mainScreen().bounds.width, height: height)
-        frame = CGRect(origin: origin, size: size)
-        clipsToBounds = true
-        
-        refreshView = createCustomRefreshView?() ?? SimpleRefreshView(frame: CGRect.zero)
-        
-        guard let r = refreshView as? UIView else {
-            fatalError("CustomRefreshView must be a subclass of UIView")
-        }
-        
-        addSubview(r)
-        r.translatesAutoresizingMaskIntoConstraints = false
-        let constraints = [
-            NSLayoutConstraint(item: r, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: r, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: r, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: r, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0),
-        ]
-        addConstraints(constraints)
     }
     
     public override func willMoveToSuperview(newSuperview: UIView?) {
@@ -166,12 +143,33 @@ public class Refresher: UIView {
                 startRefresh()
             }
         }
+    }
+    
+    public func setup() {
+        let origin = CGPoint(x: 0.0, y: -height)
+        let size = CGSize(width: UIScreen.mainScreen().bounds.width, height: height)
+        frame = CGRect(origin: origin, size: size)
+        clipsToBounds = true
         
-//        print("keyPath: \(keyPath)")
-//        print("object: \(object)")
-//        print("change: \(change)")
-//        print("distanceOffset: \(distanceOffset)")
-//        print("y: \(frame.origin.y)")
+        refreshView = customRefreshViewCreator?() ?? SimpleRefreshView(frame: CGRect.zero)
+        
+        guard let r = refreshView as? UIView else {
+            fatalError("CustomRefreshView must be a subclass of UIView")
+        }
+        
+        addSubview(r)
+        r.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [
+            NSLayoutConstraint(item: r, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: r, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: r, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: r, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0),
+        ]
+        addConstraints(constraints)
+    }
+    
+    public func createCustomRefreshView(creator: SwiftRefresherCustomRefreshViewCreator) {
+        self.customRefreshViewCreator = creator
     }
     
     private func startRefresh() {
