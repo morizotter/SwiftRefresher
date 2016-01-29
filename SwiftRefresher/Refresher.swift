@@ -152,9 +152,16 @@ public class Refresher: UIView {
     }
     
     public func setup() {
-        let origin = CGPoint(x: 0.0, y: -height)
-        let size = CGSize(width: UIScreen.mainScreen().bounds.width, height: height)
-        frame = CGRect(origin: origin, size: size)
+        translatesAutoresizingMaskIntoConstraints = false
+        let selfConstraints = [
+            NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1.0, constant: -height),
+            NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: superview, attribute: .Width, multiplier: 1.0, constant: 0.0)
+        ]
+        superview?.addConstraints(selfConstraints)
+        addConstraint(
+            NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: height)
+        )
+        
         clipsToBounds = true
         
         refreshView = customRefreshViewCreator?() ?? SimpleRefreshView(activityIndicatorViewStyle: .Gray)
