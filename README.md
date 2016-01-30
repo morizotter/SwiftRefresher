@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/cocoapods/v/SwiftRefresher.svg?style=flat)](http://cocoadocs.org/docsets/SwiftRefresher) [![License](https://img.shields.io/cocoapods/l/SwiftRefresher.svg?style=flat)](http://cocoadocs.org/docsets/SwiftRefresher) [![Platform](https://img.shields.io/cocoapods/p/SwiftRefresher.svg?style=flat)](http://cocoadocs.org/docsets/SwiftRefresher)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/morizotter/SwiftRefresher)
 
-`UIRefreshControl` on UIViewController's UITableView works strange. SwiftRefresher is one of the alternatives of UIRefreshControl.
+**SwiftRefresher** solves your problem on UIRefreshControl on UITableView in UIViewController!  **SwiftRefresher** is one of the alternatives of UIRefreshControl. Moreover, it is very customizable!
 
 ![refresher.gif](refresher.gif)
 
