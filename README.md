@@ -83,7 +83,8 @@ public func didReceiveEvent(event: SwiftRefresherEvent) {
 ##Runtime Requirements
 
 - iOS8.1 or later
-- Xcode 7.0
+- Xcode 8.0 or later
+- Swift 3.0 or later
 
 ## Installation and Setup
 
