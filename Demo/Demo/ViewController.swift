@@ -25,30 +25,29 @@ final class ViewController: UIViewController, UITableViewDataSource {
         tableView.srf_addRefresher(refresher)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let text = items[indexPath.row]
         let cell: UITableViewCell
-        if let dequeueCell = tableView.dequeueReusableCellWithIdentifier("Cell") {
+        if let dequeueCell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
             cell = dequeueCell
         } else {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "Cell")
+            cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         }
         cell.textLabel?.text = text
         return cell
     }
     
     func updateItems() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] () -> Void in
-            
+        DispatchQueue.global().async { [weak self] in
             // Time spendig task. Ex. Gettings items from server
-            NSThread.sleepForTimeInterval(3.0)
+            Thread.sleep(forTimeInterval: 3.0)
             
             // Task finished:
-            dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+            DispatchQueue.main.async { [weak self] in
                 guard let s = self else { return }
                 let text = "\(NSDate())"
                 s.items.append(text)
